@@ -1,4 +1,5 @@
-![대체 텍스트](https://drive.google.com/uc?export=view&id=15ole9N4EfxgShXGP2Sl3bzbN4H1p5c86)
+![screenshot1](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/Turbo-Snail-Turbo-Funny-Black-Silver.jpg?raw=true)
+
 - 하이퍼 파라미터 조정은 모든 기계 학습 프로젝트의 필수 부분이며 가장 시간이 많이 걸리는 작업 중 하나입니다. 
 - 가장 단순한 모델의 경우에도 하루, 몇 주 또는 그 이상 최적화 할 수있는 신경망을 언급하지 않고 최적의 매개 변수를 찾는 데 몇 시간이 걸릴 수 있습니다. 
 - 이 튜토리얼에서는 Grid Search , Random Search, HyperBand, Bayesian optimization, Tree-structured Parzen Estimator(TPE)에 대해 소개합니다. 
@@ -302,7 +303,7 @@ Abstract 발췌:
 머신 러닝 알고리즘의 성능은 좋은 하이퍼 파라미터 집합을 식별하는 데 매우 중요합니다. 최근 접근 방식은 베이지안 최적화를 사용하여 구성을 적응 적으로 선택하지만 적응 형 리소스 할당 및 조기 중지를 통해 임의 검색 속도를 높이는 데 중점을 둡니다. 반복, 데이터 샘플 또는 기능과 같은 사전 정의 된 리소스가 무작위로 샘플링 된 구성에 할당되는 순수 탐색 비 확률 적 무한 무장 밴디트 문제로 하이퍼 파라미터 최적화를 공식화합니다. 이 프레임 워크에 대해 새로운 알고리즘 인 Hyperband를 도입하고 이론적 속성을 분석하여 몇 가지 바람직한 보장을 제공합니다. 또한, 하이퍼 파라미터 최적화 문제 모음에 대해 Hyperband를 인기있는 베이지안 최적화 방법과 비교합니다. Hyperband는 다양한 딥 러닝 및 커널 기반 학습 문제에 대해 경쟁 업체보다 훨씬 빠른 속도를 제공 할 수 있습니다. © 2018 Lisha Li, Kevin Jamieson, Giulia DeSalvo, Afshin Rostamizadeh 및 Ameet Talwalkar.
 
 
-<img src="https://drive.google.com/uc?export=view&id=1Encj6fHQQ22jz3Qyz7bywx-Ebw87rg0C" />
+<img src="https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/Hyperband.png?raw=true" />
 
 - Hyperband Search는 최적화 검색 속도에 중점을 둡니다. 
 - n개의 하이퍼파라미터 조합을 랜덤 샘플링.
@@ -396,10 +397,10 @@ hb_results_df.plot(subplots=True,figsize=(10, 10))
 
 Random 또는 Grid Search와 달리 베이지안 접근 방식은 목표 함수의 점수 확률에 하이퍼 파라미터를 매핑하는 확률 모델을 형성하는데 사용하는 과거 평가 결과를 추적합니다.
 
-<img src="https://drive.google.com/uc?export=view&id=1qHt9ZQcq1VQXF5VkCzbYkzQEk_Sl83-I" />
+![](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/BayesianOpt.gif?raw=true)
 
+<img src="https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/bayesopt2.png?raw=true" style="height:320px;"  />
 
-<img src="https://drive.google.com/uc?export=view&id=15sN3oArIigtizeLZPP-McZB77jMbYuKM" style="height:320px;"  />
 
 
 
@@ -615,7 +616,7 @@ def gb_mse_cv(params, random_state=random_state, cv=kf, X=train_data, y=train_ta
 ### Research Paper [TPE](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)
 
 
-<img src="https://drive.google.com/uc?export=view&id=15SCfXarpQlq5mk_yUxPi0VQ0lmsuJ1Ns" />
+<img src="https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/TPE.gif?raw=true" />
 
 TPE는 Hyperopt의 기본 알고리즘입니다. 최적화를 위해 베이지안 접근 방식을 사용합니다. 모든 단계에서 함수의 확률 모델을 구축하고 다음 단계에서 가장 유망한 매개 변수를 선택하려고합니다. 일반적으로 이러한 유형의 알고리즘은 다음과 같이 작동합니다.
 > - 1.임의의 initial point 생성 ${x^*}$
@@ -626,6 +627,7 @@ TPE는 Hyperopt의 기본 알고리즘입니다. 최적화를 위해 베이지�
 > - 6.중지 기준 중 하나가 충족 될 때까지 3-5 단계를 반복합니다 (예 : i> max_eval).
 
 예를 들어 특정 TPE 알고리즘에 대한 자세한 정보는 아래 링크 참조. (이 링크 내용은 상세버전으로, 튜토리얼의 범위를 벗어납니다.)
+
 [https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f] 
 
 - fmin의 사용은 매우 간단합니다. 매개 변수의 가능한 공간을 정의하고 함수를 호출하기 만하면됩니다.
