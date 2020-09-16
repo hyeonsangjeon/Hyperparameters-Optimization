@@ -210,7 +210,7 @@ gs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](output_17_1.png)
+![png](./pic/output_17_1.png)
 
 
 # 2. Random Search
@@ -291,7 +291,7 @@ rs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](output_22_1.png)
+![png](./pic/output_22_1.png)
 
 
 
@@ -392,7 +392,7 @@ hb_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](output_28_1.png)
+![png](./pic/output_28_1.png)
 
 
 ## 4. Bayesian optimization
@@ -567,7 +567,7 @@ bayes_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](output_32_1.png)
+![png](./pic/output_32_1.png)
 
 
 ## 5.Hyperopt
@@ -697,7 +697,7 @@ tpe_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](output_43_1.png)
+![png](./pic/output_43_1.png)
 
 
 ## Results
@@ -728,7 +728,7 @@ ax.set_ylabel("best_cumulative_score")
 
 
 
-![png](output_46_1.png)
+![png](./pic/output_46_1.png)
 
 
 - Random Search는 단순하면서, 시간의 비용에 따른 스코어가 높은 것을 알 수 있었습니다.
