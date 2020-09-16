@@ -452,16 +452,10 @@ from skopt.space import Real, Categorical, Integer
 ```python
 %%time
 
-search_space = {"bootstrap": Categorical([True, False]), # values for boostrap can be either True or False
-        "max_depth": Integer(2, 20), # values of max_depth are integers from 2 to 20
-        "max_features": Categorical(['auto', 'sqrt','log2']), 
-        "min_samples_leaf": Integer(2, 20),
-        "min_samples_split": Integer(2, 10),
-        'learning_rate': np.logspace(-5, 0, 100),
-        "n_estimators": Integer(100,2000 )
-    }
-
-
+search_space={'learning_rate': np.logspace(-5, 0, 100),
+                 "max_depth": Integer(2, 20), 
+                 'n_estimators': Integer(100,2000),
+                 'random_state': [random_state]}
                  
 
 def on_step(optim_result):
@@ -486,61 +480,61 @@ print("Best MSE = {:.3f} , when params {}".format(-bayes_search.best_score_, bay
 print('===========================')
 ```
 
-    best score: -4277.447343444621
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.699187135886
-    best score: -3417.4533259923883
-    best score: -3404.0802891967614
-    best score: -3404.0802891967614
-    best score: -3404.0802891967614
-    best score: -3404.0802891967614
-    best score: -3404.0802891967614
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3394.019531016137
-    best score: -3387.467708738322
-    best score: -3387.467708738322
-    best score: -3387.467708738322
-    best score: -3387.467708738322
-    best score: -3387.467708738322
-    best score: -3387.467708738322
-    best score: -3386.35041564148
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
-    best score: -3385.8302869635454
+    best score: -5853.669712392711
+    best score: -5175.71132439545
+    best score: -5175.71132439545
+    best score: -3962.5689592859258
+    best score: -3962.5689592859258
+    best score: -3962.5689592859258
+    best score: -3962.5689592859258
+    best score: -3962.5689592859258
+    best score: -3962.5689592859258
+    best score: -3403.520481151382
+    best score: -3403.520481151382
+    best score: -3403.520481151382
+    best score: -3402.1998000783174
+    best score: -3388.578578162887
+    best score: -3388.578578162887
+    best score: -3388.578578162887
+    best score: -3388.578578162887
+    best score: -3388.2297949026524
+    best score: -3388.2297949026524
+    best score: -3388.2297949026524
+    best score: -3388.2297949026524
+    best score: -3388.2297949026524
+    best score: -3388.2297949026524
+    best score: -3388.2297949026524
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
+    best score: -3387.978913816754
     ===========================
-    Best MSE = 3385.830 , when params OrderedDict([('bootstrap', True), ('learning_rate', 0.002364489412645407), ('max_depth', 20), ('max_features', 'sqrt'), ('min_samples_leaf', 20), ('min_samples_split', 5), ('n_estimators', 1076)])
+    Best MSE = 3387.979 , when params OrderedDict([('learning_rate', 0.007564633275546291), ('max_depth', 11), ('n_estimators', 332), ('random_state', 42)])
     ===========================
-    CPU times: user 2min 28s, sys: 4min 23s, total: 6min 51s
-    Wall time: 1min 48s
+    CPU times: user 1min 45s, sys: 2min 56s, total: 4min 41s
+    Wall time: 1min 15s
 
 
 
@@ -561,10 +555,10 @@ bayes_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8fa5518>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2785077f0>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe278517c88>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2782cd128>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe279440ef0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe279363048>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe27930d470>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2789fb8d0>],
           dtype=object)
 
 
@@ -760,7 +754,7 @@ print("TPE : {:.3f}".format(tpe_test_score))
     Grid Search : 3045.329
     Random Search :  2877.117
     Hyperband : 2784.648
-    Bayesian optimization : 2856.541
+    Bayesian optimization : 2860.340
     TPE : 2942.574
 
 
