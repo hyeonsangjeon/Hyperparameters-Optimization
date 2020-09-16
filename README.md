@@ -1,5 +1,4 @@
 ![screenshot1](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/Turbo-Snail-Turbo-Funny-Black-Silver.jpg?raw=true)
-
 - 하이퍼 파라미터 조정은 모든 기계 학습 프로젝트의 필수 부분이며 가장 시간이 많이 걸리는 작업 중 하나입니다. 
 - 가장 단순한 모델의 경우에도 하루, 몇 주 또는 그 이상 최적화 할 수있는 신경망을 언급하지 않고 최적의 매개 변수를 찾는 데 몇 시간이 걸릴 수 있습니다. 
 - 이 튜토리얼에서는 Grid Search , Random Search, HyperBand, Bayesian optimization, Tree-structured Parzen Estimator(TPE)에 대해 소개합니다. 
@@ -110,8 +109,8 @@ print(score)
 ```
 
     3532.0822189641976
-    CPU times: user 36.9 ms, sys: 57 ms, total: 94 ms
-    Wall time: 750 ms
+    CPU times: user 24 ms, sys: 42 ms, total: 66 ms
+    Wall time: 882 ms
 
 
 #### 실험에 사용한 Scikit-Learn의 파라미터는 아래와 같습니다. 
@@ -211,7 +210,7 @@ gs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](./pic/output_17_1.png)
+![png](output_17_1.png)
 
 
 # 2. Random Search
@@ -292,11 +291,11 @@ rs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](./pic/output_22_1.png)
+![png](output_22_1.png)
 
 
-#https://www.kaggle.com/ishivinal/hyperparamters-optimization-gs-rs-boa-tpe-hb-ga
-# 3. HyperBand
+
+## 3. HyperBand
 
 ### Research Paper [HyperBand](https://arxiv.org/pdf/1603.06560.pdf)
 Abstract 발췌:
@@ -312,8 +311,8 @@ Abstract 발췌:
 
 
 수행속도:
-> - Accuinsight+ modeler (18 CPU- 162core) Wall time: 6.89 s
-> - AMD 2700x (1 CPU - 8Core) Wall time: 2.94 s 
+> - Accuinsight+ modeler (18 CPU- 162core) Wall time: 2.51 s
+> - AMD 2700x (1 CPU - 8Core) Wall time: 1.19 s 
 
 cloud자원을 사용하는 경우 분산 자원의 준비 시간이 상대적으로 긴것을 볼수 있었음. 
 
@@ -349,7 +348,7 @@ param_hyper_band={'learning_rate': np.logspace(-5, 0, 100),
                  }
 
 
-hb = HyperbandSearchCV(model, param_hyper_band,  scoring='neg_mean_squared_error', resource_param='n_estimators', random_state=random_state)
+hb = HyperbandSearchCV(model, param_hyper_band, max_iter = n_iter, scoring='neg_mean_squared_error', resource_param='n_estimators', random_state=random_state)
 
 
 #%time search.fit(new_training_data, y)
@@ -365,10 +364,10 @@ print('===========================')
 ```
 
     ===========================
-    Best MSE = 3351.870 , when params {'learning_rate': 1.0, 'max_depth': 2, 'n_estimators': 9, 'num_leaves': 2, 'random_state': 42}
+    Best MSE = 3209.191 , when params {'learning_rate': 0.3944206059437656, 'max_depth': 8, 'n_estimators': 50, 'num_leaves': 2, 'random_state': 42}
     ===========================
-    CPU times: user 1min 19s, sys: 0 ns, total: 1min 19s
-    Wall time: 6.64 s
+    CPU times: user 7.95 s, sys: 0 ns, total: 7.95 s
+    Wall time: 1.19 s
 
 
 
@@ -384,25 +383,25 @@ hb_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fddad851518>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fdda6c34e48>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fdda6e01438>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fddac008e48>],
           dtype=object)
 
 
 
 
-![png](./pic/output_28_1.png)
+![png](output_28_1.png)
 
 
-# 4. Bayesian optimization
-### Research Paper [Bayesian optimization](https://arxiv.org/pdf/1012.2599.pdf)
-
+## 4. Bayesian optimization
 
 Random 또는 Grid Search와 달리 베이지안 접근 방식은 목표 함수의 점수 확률에 하이퍼 파라미터를 매핑하는 확률 모델을 형성하는데 사용하는 과거 평가 결과를 추적합니다.
 
 ![](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/BayesianOpt.gif?raw=true)
 
 <img src="https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/bayesopt2.png?raw=true" style="height:320px;"  />
-
 
 
 
@@ -568,7 +567,7 @@ bayes_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](./pic/output_32_1.png)
+![png](output_32_1.png)
 
 
 ## 5.Hyperopt
@@ -613,7 +612,7 @@ def gb_mse_cv(params, random_state=random_state, cv=kf, X=train_data, y=train_ta
     return score
 ```
 
-# 5.1 Tree-structured Parzen Estimator(TPE)
+## 5.1 Tree-structured Parzen Estimator(TPE)
 
 ### Research Paper [TPE](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)
 
@@ -698,7 +697,7 @@ tpe_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-![png](./pic/output_43_1.png)
+![png](output_43_1.png)
 
 
 ## Results
@@ -729,7 +728,7 @@ ax.set_ylabel("best_cumulative_score")
 
 
 
-![png](./pic/output_46_1.png)
+![png](output_46_1.png)
 
 
 - Random Search는 단순하면서, 시간의 비용에 따른 스코어가 높은 것을 알 수 있었습니다.
