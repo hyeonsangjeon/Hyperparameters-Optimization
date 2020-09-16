@@ -109,8 +109,8 @@ print(score)
 ```
 
     3532.0822189641976
-    CPU times: user 24 ms, sys: 42 ms, total: 66 ms
-    Wall time: 882 ms
+    CPU times: user 25 ms, sys: 43 ms, total: 68 ms
+    Wall time: 821 ms
 
 
 #### 실험에 사용한 Scikit-Learn의 파라미터는 아래와 같습니다. 
@@ -155,7 +155,7 @@ print(score)
 - 즉, cross_val_score 20 * 19 * 5 = 1900 번 계산해야합니다. 1 번 계산에 0.5 ~ 1.0 초가 걸리면 그리드 검색은 15 ~ 30 분 동안 지속됩니다. ~ 400 데이터 포인트가있는 데이터 세트에는 너무 많습니다.
 - 실험 시간은 오래 걸리지 말아야하므로, 이 방법을 사용하여 분석 할 구간을 좁혀 야합니다. 5 * 8 * 3 = 120 조합 만 남겼습니다.      
 > - Accuinsight+ modeler (18 CPU- 162core) Wall time: 5.5 s
-> - AMD 2700x (1 CPU - 8Core) Wall time: 18.3 s 
+> - AMD 2700x (1 CPU - 8Core) Wall time: 6.7 s 
 
 
 ```python
@@ -178,12 +178,11 @@ print("Best MSE = {:.3f} , when params {}".format(-gs.best_score_, gs.best_param
 print('===========================')
 ```
 
-    [LightGBM] [Warning] Accuracy may be bad since you didn't set num_leaves and 2^max_depth > num_leaves
     ===========================
     Best MSE = 3319.975 , when params {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 800, 'random_state': 42}
     ===========================
-    CPU times: user 4.16 s, sys: 46.4 ms, total: 4.21 s
-    Wall time: 5.26 s
+    CPU times: user 1.21 s, sys: 21 ms, total: 1.23 s
+    Wall time: 5.63 s
 
 
 결과를 개선했지만, 그것에 많은 시간을 보냈습니다. 매개 변수가 반복에서 반복으로 어떻게 변경되었는지 살펴 보겠습니다.
@@ -204,7 +203,10 @@ gs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe2a3848be0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2a3878a90>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8ec4f28>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2a3846898>],
           dtype=object)
 
 
@@ -261,12 +263,11 @@ print("Best MSE = {:.3f} , when params {}".format(-rs.best_score_, rs.best_param
 print('===========================')
 ```
 
-    [LightGBM] [Warning] Accuracy may be bad since you didn't set num_leaves and 2^max_depth > num_leaves
     ===========================
     Best MSE = 3200.402 , when params {'learning_rate': 0.0047508101621027985, 'max_depth': 19, 'n_estimators': 829, 'random_state': 42}
     ===========================
-    CPU times: user 5.78 s, sys: 42.2 ms, total: 5.82 s
-    Wall time: 3.27 s
+    CPU times: user 1.18 s, sys: 11 ms, total: 1.19 s
+    Wall time: 3.06 s
 
 
 결과는 GridSearchCV보다 낫습니다. 더 적은 시간을 소비하고 더 완전한 검색을했습니다. 시각화를 살펴 보겠습니다.
@@ -285,7 +286,10 @@ rs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8b902b0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8dcdef0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8d80e80>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8d401d0>],
           dtype=object)
 
 
@@ -366,8 +370,8 @@ print('===========================')
     ===========================
     Best MSE = 3209.191 , when params {'learning_rate': 0.3944206059437656, 'max_depth': 8, 'n_estimators': 50, 'num_leaves': 2, 'random_state': 42}
     ===========================
-    CPU times: user 7.95 s, sys: 0 ns, total: 7.95 s
-    Wall time: 1.19 s
+    CPU times: user 8.03 s, sys: 31 ms, total: 8.06 s
+    Wall time: 1.21 s
 
 
 
@@ -383,10 +387,10 @@ hb_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fddad851518>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x7fdda6c34e48>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x7fdda6e01438>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x7fddac008e48>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8ce1be0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8cb2668>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8c54630>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8b4e588>],
           dtype=object)
 
 
@@ -482,65 +486,61 @@ print("Best MSE = {:.3f} , when params {}".format(-bayes_search.best_score_, bay
 print('===========================')
 ```
 
-    best score: -4332.380989720823
-    best score: -4332.380989720823
-    best score: -4291.348658839158
-    best score: -3808.767072314307
-    best score: -3808.767072314307
-    best score: -3758.0328052409527
-    best score: -3758.0328052409527
-    best score: -3758.0328052409527
-    best score: -3758.0328052409527
-    best score: -3758.0328052409527
-    best score: -3469.537248802528
-    best score: -3469.537248802528
-    best score: -3469.110899989733
-    best score: -3468.7517824410297
-    best score: -3468.7517824410297
-    best score: -3468.7517824410297
-    best score: -3465.7582899264726
-    best score: -3465.7582899264726
-    best score: -3465.6621808985897
-    best score: -3465.6621808985897
-    best score: -3465.4707345162947
-    best score: -3465.4707345162947
-    best score: -3465.4707345162947
-    best score: -3465.4707345162947
-    best score: -3465.4707345162947
-    best score: -3465.4707345162947
-    best score: -3465.4707345162947
-    best score: -3463.137818898732
-    best score: -3463.137818898732
-    best score: -3463.137818898732
-    best score: -3463.137818898732
-    best score: -3463.137818898732
-    best score: -3462.473946443482
-    best score: -3462.473946443482
-    best score: -3457.7802536921117
-    best score: -3457.7802536921117
-    best score: -3457.7802536921117
-    best score: -3457.7802536921117
-    best score: -3457.7802536921117
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    best score: -3454.510905681711
-    [LightGBM] [Warning] Unknown parameter: min_samples_leaf
-    [LightGBM] [Warning] Unknown parameter: max_features
-    [LightGBM] [Warning] Unknown parameter: min_samples_split
-    [LightGBM] [Warning] Unknown parameter: bootstrap
+    best score: -4277.447343444621
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.699187135886
+    best score: -3417.4533259923883
+    best score: -3404.0802891967614
+    best score: -3404.0802891967614
+    best score: -3404.0802891967614
+    best score: -3404.0802891967614
+    best score: -3404.0802891967614
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3394.019531016137
+    best score: -3387.467708738322
+    best score: -3387.467708738322
+    best score: -3387.467708738322
+    best score: -3387.467708738322
+    best score: -3387.467708738322
+    best score: -3387.467708738322
+    best score: -3386.35041564148
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
+    best score: -3385.8302869635454
     ===========================
-    Best MSE = 3454.511 , when params OrderedDict([('bootstrap', True), ('learning_rate', 0.030538555088334154), ('max_depth', 2), ('max_features', 'auto'), ('min_samples_leaf', 20), ('min_samples_split', 2), ('n_estimators', 101)])
+    Best MSE = 3385.830 , when params OrderedDict([('bootstrap', True), ('learning_rate', 0.002364489412645407), ('max_depth', 20), ('max_features', 'sqrt'), ('min_samples_leaf', 20), ('min_samples_split', 5), ('n_estimators', 1076)])
     ===========================
-    CPU times: user 8min 1s, sys: 11min 45s, total: 19min 46s
-    Wall time: 2min 24s
+    CPU times: user 2min 28s, sys: 4min 23s, total: 6min 51s
+    Wall time: 1min 48s
 
 
 
@@ -561,7 +561,10 @@ bayes_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe2d8fa5518>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2785077f0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe278517c88>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe2782cd128>],
           dtype=object)
 
 
@@ -667,11 +670,10 @@ tpe_test_score=mean_squared_error(test_targets, model.predict(test_data))
 print("Best MSE {:.3f} params {}".format( gb_mse_cv(best), best))
 ```
 
-    100%|██████████| 50/50 [00:07<00:00,  7.02trial/s, best loss: 3186.7910608402444]
-    [LightGBM] [Warning] Accuracy may be bad since you didn't set num_leaves and 2^max_depth > num_leaves
+    100%|██████████| 50/50 [00:07<00:00,  6.41trial/s, best loss: 3186.7910608402444]
     Best MSE 3186.791 params {'learning_rate': 0.026975706032324936, 'max_depth': 20.0, 'n_estimators': 168.0}
-    CPU times: user 2.75 s, sys: 41.8 ms, total: 2.79 s
-    Wall time: 7.3 s
+    CPU times: user 752 ms, sys: 65 ms, total: 817 ms
+    Wall time: 7.87 s
 
 
 Best MSE 3186로 RandomizedSearch에 비해 시간은 걸리지만, 좀 더 나은 솔루션을 찾았습니다.
@@ -691,7 +693,10 @@ tpe_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 
-    array([<AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>, <AxesSubplot:>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x7fe2783006d8>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe267b062b0>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe267b336d8>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x7fe267aaeb38>],
           dtype=object)
 
 
@@ -754,12 +759,12 @@ print("TPE : {:.3f}".format(tpe_test_score))
     Test MSE scored:
     Grid Search : 3045.329
     Random Search :  2877.117
-    Hyperband : 3056.535
-    Bayesian optimization : 2748.486
+    Hyperband : 2784.648
+    Bayesian optimization : 2856.541
     TPE : 2942.574
 
 
-Bayesian optimization과 Random Search알고리즘의 TEST데이터 MSE 점수가 가장 낮은것으로 나타났습니다. (실험용 Toy dataset으로 실행에 따라 결과임을 참고)
+Test data의 evaluation에서는 Hyperband 알고리즘을 사용한 하이퍼파라미터의 모델 MSE 점수가 가장 낮은것으로 나타났습니다. (실험용 Toy dataset으로 실행에 따라 결과임을 참고)
 
 - Accuinsight+의 modeler AutoDL에 적용한 다양한 하이퍼 파라미터 최적화 접근 방식에 대해 알아봤습니다.
 - 최신 hyperopt의 TPE알고리즘의 사용방법을 알 수 있었습니다. 
