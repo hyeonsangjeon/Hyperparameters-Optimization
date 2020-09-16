@@ -296,7 +296,7 @@ rs_results_df.plot(subplots=True,figsize=(10, 10))
 
 
 #https://www.kaggle.com/ishivinal/hyperparamters-optimization-gs-rs-boa-tpe-hb-ga
-## 3. HyperBand
+# 3. HyperBand
 
 ### Research Paper [HyperBand](https://arxiv.org/pdf/1603.06560.pdf)
 Abstract 발췌:
@@ -393,7 +393,7 @@ hb_results_df.plot(subplots=True,figsize=(10, 10))
 ![png](./pic/output_28_1.png)
 
 
-## 4. Bayesian optimization
+# 4. Bayesian optimization
 ### Research Paper [Bayesian optimization](https://arxiv.org/pdf/1012.2599.pdf)
 
 
@@ -613,7 +613,7 @@ def gb_mse_cv(params, random_state=random_state, cv=kf, X=train_data, y=train_ta
     return score
 ```
 
-## 5.1 Tree-structured Parzen Estimator(TPE)
+# 5.1 Tree-structured Parzen Estimator(TPE)
 
 ### Research Paper [TPE](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)
 
