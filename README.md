@@ -401,6 +401,9 @@ hb_results_df.plot(subplots=True,figsize=(10, 10))
 
 ## 4. Bayesian optimization
 
+### Research Paper [Bayesian optimization](https://arxiv.org/pdf/1012.2599.pdf)
+
+
 Random 또는 Grid Search와 달리 베이지안 접근 방식은 목표 함수의 점수 확률에 하이퍼 파라미터를 매핑하는 확률 모델을 형성하는데 사용하는 과거 평가 결과를 추적합니다.
 
 ![](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/blob/master/pic/BayesianOpt.gif?raw=true)
