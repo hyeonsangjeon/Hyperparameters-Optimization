@@ -7,6 +7,9 @@
 - 이 튜토리얼을 마치면 모델링 프로세스의 속도를 쉽게 높이는 방법을 알게됩니다. 
 - 튜토리얼의 유일한 목표는 매우 단순화 된 예제에서 Hyperparameter optimization을 사용하는 방법을 시연하고 설명하는 것입니다.
 
+### 국내관련발표기고
+- http://www.itdaily.kr/news/articleView.html?idxno=210339
+- https://www.comworld.co.kr/news/articleView.html?idxno=50677
 
 ```python
 #!pip install pip install git+https://github.com/darenr/scikit-optimize
