@@ -1,3 +1,5 @@
+**🇬🇧 English** | [🇰🇷 한국어](README_KR.md)
+
 # 🚀 Hyperparameter Optimization Tutorial
 
 <div align="center">
@@ -51,6 +53,17 @@
 - Implement optimization in real projects with working code
 - Compare results with statistical rigor
 - Reduce hyperparameter tuning time significantly
+
+### 🗺️ Concept Mind Map
+
+<details>
+<summary><strong>📌 Click to view Hyperparameter Optimization Concept Mind Map</strong></summary>
+
+<div align="center">
+  <img src="pic/mindmap_en.png" alt="Hyperparameter Optimization Concept Mind Map"/>
+</div>
+
+</details>
 
 ---
 
@@ -170,11 +183,13 @@ Hyperparameters-Optimization/
 - **Bayesian Optimization**: [Snoek et al., 2012](https://arxiv.org/abs/1206.2944)
 - **HyperBand**: [Li et al., ICLR 2018](https://arxiv.org/pdf/1603.06560.pdf)
 
-### Presentations
+### Presentations & Media
 
-- 🎤 2022 AI & Big Data Day - "AI Model Hyperparameter Optimization"
-- 🎤 2020 AI Innovation Conference - Hyperparameter Optimization Techniques
-- 📰 Featured in [IT Daily](http://www.itdaily.kr/news/articleView.html?idxno=210339), [ComWorld](https://www.comworld.co.kr/news/articleView.html?idxno=50677)
+- 🎤 Hyeonsang Jeon, **"Expert Lecture: Hyperparameter Optimization in AI Modeling"**, *ITDAILY*, 2022. [Article](http://www.itdaily.kr/news/articleView.html?idxno=210339)
+
+- 🎤 Hyeonsang Jeon, **"Case Study: AutoDL with Hyperparameter Optimization in Deep Learning Platforms"**, *AI Innovation 2020*, The Electronic Times, 2020. [Video](https://youtu.be/QMorERxb1YY?si=iN8opTIjZPc2tTzq)
+
+- 📰 Featured in [ComWorld](https://www.comworld.co.kr/news/articleView.html?idxno=50677)
 
 ---
 

@@ -56,13 +56,14 @@
 
 ### 🗺️ 개념 마인드맵
 
-**📌 [이미지를 클릭하여 전체 크기로 보기](pic/mindmap_kr.png)**
+<details>
+<summary><strong>📌 클릭하여 하이퍼파라미터 최적화 개념 마인드맵 보기</strong></summary>
 
 <div align="center">
-  <a href="pic/mindmap_kr.png" target="_blank">
-    <img src="pic/mindmap_kr.png" alt="하이퍼파라미터 최적화 개념 마인드맵" width="600"/>
-  </a>
+  <img src="pic/mindmap_kr.png" alt="하이퍼파라미터 최적화 개념 마인드맵"/>
 </div>
+
+</details>
 
 ---
 
