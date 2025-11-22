@@ -1,0 +1,22 @@
+# Core dependencies
+numpy>=1.20.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+
+# Machine Learning Models
+lightgbm>=3.0.0
+
+# Hyperparameter Optimization Libraries
+optuna>=3.0.0              # Modern hyperparameter optimization (replaces HyperBand)
+hyperopt>=0.2.7            # TPE algorithm implementation
+scikit-optimize>=0.9.0     # Bayesian optimization
+
+# Utilities
+scipy>=1.7.0
+
+# Visualization
+matplotlib>=3.3.0
+
+
+# Note: scikit-hyperband is NOT included due to compatibility issues with modern scikit-learn
+# Use Optuna instead for similar functionality (TPE + Pruning)
