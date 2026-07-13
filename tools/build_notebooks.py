@@ -4,7 +4,10 @@
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 from dataclasses import dataclass
+import hashlib
+import json
 from pathlib import Path
 from textwrap import dedent
 
@@ -15,6 +18,23 @@ OUTPUTS = {
     "ko": ROOT / "HyperParameterInspect.ipynb",
     "en": ROOT / "HyperParameterInspect_EN.ipynb",
 }
+EXECUTION_MODE = "quick"
+EXECUTION_ENV = {
+    "HPO_MODE": EXECUTION_MODE,
+    "HPO_N_JOBS": "1",
+    "MPLBACKEND": "Agg",
+}
+EXECUTOR_SETTINGS = {
+    "kernel_name": "python3",
+    "allow_errors": False,
+    "record_timing": False,
+    "timeout": 1_200,
+}
+RUNTIME_INPUTS = (
+    ROOT / "pyproject.toml",
+    ROOT / "uv.lock",
+    *sorted((ROOT / "src" / "hpo_lab").glob("*.py")),
+)
 
 
 @dataclass(frozen=True)
@@ -48,6 +68,9 @@ CELLS = [
 
         [English notebook](HyperParameterInspect_EN.ipynb) ·
         [한국어 README](README_KR.md) · [Project README](README.md)
+
+        **GitHub 미리보기에는 `quick` 모드로 실행한 표와 차트가 포함되어 있습니다.**
+        직접 실행하면 현재 환경의 결과로 갱신됩니다.
         """,
         """
         <div align="center">
@@ -62,6 +85,9 @@ CELLS = [
 
         [한국어 노트북](HyperParameterInspect.ipynb) ·
         [한국어 README](README_KR.md) · [Project README](README.md)
+
+        **The GitHub preview includes tables and charts executed in `quick` mode.**
+        Running the notebook replaces them with results from your environment.
         """,
     ),
     md(
@@ -149,7 +175,7 @@ CELLS = [
 
         print(f"mode={config.mode} | trials={config.n_trials} | "
               f"folds={config.cv_folds} | seeds={config.seeds}")
-        print(f"artifacts={ARTIFACT_DIR.resolve()}")
+        print(f"artifacts={ARTIFACT_DIR}")
         """,
         "setup",
     ),
@@ -690,7 +716,8 @@ CELLS = [
         )
         print(
             f"study trials={len(resume_run.study.trials)} | "
-            f"target={resume_config.n_trials} | database={database_path}"
+            f"target={resume_config.n_trials} | "
+            f"database={ARTIFACT_DIR / 'resume-study.db'}"
         )
         """,
         "operations",
@@ -880,6 +907,85 @@ def render(language: str) -> str:
     return nbformat.writes(build_notebook(language), version=4) + "\n"
 
 
+def source_matches(
+    actual: nbformat.NotebookNode,
+    expected: nbformat.NotebookNode,
+) -> bool:
+    """Compare generated source while intentionally ignoring execution output."""
+
+    actual_source = deepcopy(actual)
+    for cell in actual_source.cells:
+        if cell.cell_type == "code":
+            cell.execution_count = None
+            cell.outputs = []
+    actual_source.metadata.get("hpo_lab", {}).pop("execution", None)
+    return actual_source == expected
+
+
+def normalized_text_bytes(path: Path) -> bytes:
+    text = path.read_text(encoding="utf-8")
+    return text.replace("\r\n", "\n").replace("\r", "\n").encode()
+
+
+def runtime_fingerprint(notebook: nbformat.NotebookNode) -> str:
+    digest = hashlib.sha256()
+    execution_contract = {
+        "mode": EXECUTION_MODE,
+        "environment": EXECUTION_ENV,
+        "executor": EXECUTOR_SETTINGS,
+        "code_cells": [
+            {
+                "id": cell.get("id"),
+                "source": cell.source,
+                "metadata": cell.metadata,
+            }
+            for cell in notebook.cells
+            if cell.cell_type == "code"
+        ],
+    }
+    digest.update(
+        json.dumps(
+            execution_contract,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode()
+    )
+    for path in RUNTIME_INPUTS:
+        digest.update(path.relative_to(ROOT).as_posix().encode())
+        digest.update(b"\0")
+        digest.update(normalized_text_bytes(path))
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def preserve_execution(
+    existing: nbformat.NotebookNode,
+    generated: nbformat.NotebookNode,
+) -> None:
+    """Keep published outputs when regeneration does not change code cells."""
+
+    if not source_matches(existing, generated):
+        return
+    execution = existing.metadata.get("hpo_lab", {}).get("execution")
+    if (
+        not execution
+        or execution.get("runtime_sha256")
+        != runtime_fingerprint(generated)
+    ):
+        return
+
+    existing_code = [
+        cell for cell in existing.cells if cell.cell_type == "code"
+    ]
+    generated_code = [
+        cell for cell in generated.cells if cell.cell_type == "code"
+    ]
+    for existing_cell, generated_cell in zip(existing_code, generated_code):
+        generated_cell.execution_count = existing_cell.execution_count
+        generated_cell.outputs = deepcopy(existing_cell.outputs)
+    generated.metadata["hpo_lab"]["execution"] = deepcopy(execution)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -891,12 +997,24 @@ def main() -> int:
 
     stale: list[Path] = []
     for language, path in OUTPUTS.items():
-        expected = render(language)
+        expected_notebook = build_notebook(language)
         if args.check:
-            if not path.exists() or path.read_text(encoding="utf-8") != expected:
+            if not path.exists():
+                stale.append(path)
+                continue
+            actual_notebook = nbformat.read(path, as_version=4)
+            if not source_matches(actual_notebook, expected_notebook):
                 stale.append(path)
         else:
-            path.write_text(expected, encoding="utf-8")
+            if path.exists():
+                preserve_execution(
+                    nbformat.read(path, as_version=4),
+                    expected_notebook,
+                )
+            path.write_text(
+                nbformat.writes(expected_notebook, version=4) + "\n",
+                encoding="utf-8",
+            )
             print(f"wrote {path.relative_to(ROOT)}")
 
     if stale:
