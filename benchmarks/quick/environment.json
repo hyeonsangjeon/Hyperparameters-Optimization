@@ -1,0 +1,13 @@
+{
+  "captured_at": "2026-07-13",
+  "source_commit": "8143cd2ce9a01d3eda26ed4778741f94065af29c",
+  "python": "3.14.2",
+  "platform": "Apple Silicon macOS",
+  "packages": {
+    "numpy": "2.5.1",
+    "pandas": "3.0.3",
+    "scikit-learn": "1.9.0",
+    "lightgbm": "4.6.0",
+    "optuna": "4.9.0"
+  }
+}

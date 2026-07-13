@@ -35,6 +35,28 @@ Both notebooks contain byte-identical code cells and differ only in explanatory 
   classification support, SQLite resume, CLI export, and CI notebook execution.
 - Avoids hard-coded claims that one optimizer is universally best.
 
+<!-- benchmark-snapshot:start -->
+
+## ⚡ Reproducible benchmark snapshot
+
+**Diabetes regression · 442 samples · 10 features · LightGBM · 12 trials/method · 3-fold CV · seeds 17, 42**
+
+| Method | Holdout MSE ↓ | Observed range | Improvement vs baseline ↑ | Search time ↓ | Fits | Good fit |
+|---|---:|---:|---:|---:|---:|---|
+| **Grid** | 3011.5 | 2797.2–3225.7 | +17.2% | 0.98s | 37 | Small discrete spaces; transparent baseline |
+| **TPE** | 3149.9 | 2884.8–3415.0 | +13.5% | 1.77s | 37 | Mixed and conditional spaces |
+| **GP** | 3185.4 | 2858.7–3512.2 | +12.7% | 1.43s | 37 | Low-dimensional, expensive objectives |
+| **CMA-ES** | 3273.4 | 2892.7–3654.1 | +10.5% | 1.24s | 37 | Continuous parameters with interactions |
+| **Random** | 3294.2 | 2875.3–3713.1 | +10.0% | 1.35s | 37 | Space scouting and a strong baseline |
+| **Baseline** | 3661.0 | 3203.1–4119.0 | — | 0.06s | 4 | Untuned reference |
+
+> **Interpretation:** This is a reproducible equal-budget snapshot, not a universal leaderboard. With only two seeds, read the mean together with the observed range. Search time varies by hardware and parallel settings.
+
+Source: [`runs.csv`](benchmarks/quick/runs.csv) · [config](benchmarks/quick/config.json) · [environment](benchmarks/quick/environment.json) (Python 3.14.2)<br>
+Source commit: [`8143cd2`](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/commit/8143cd2ce9a01d3eda26ed4778741f94065af29c) · Reproduce: `uv run hpo-lab benchmark --mode quick`
+
+<!-- benchmark-snapshot:end -->
+
 ## Quick start
 
 ### With uv
@@ -131,7 +153,9 @@ seed sensitivity, and nested-CV estimates.
 ├── HyperParameterInspect.ipynb       # Korean comprehensive tutorial
 ├── HyperParameterInspect_EN.ipynb    # English translation, identical code
 ├── src/hpo_lab/                      # Tested experiment engine and plots
+├── benchmarks/quick/                 # Tracked README benchmark provenance
 ├── tools/build_notebooks.py          # Deterministic bilingual notebook builder
+├── tools/render_benchmark_snapshot.py # Generated benchmark tables
 ├── tests/                            # Unit and synchronization tests
 ├── benchmark_hpo_algorithms.py       # Backward-compatible CLI entry point
 ├── pyproject.toml                    # Package and dependency metadata
