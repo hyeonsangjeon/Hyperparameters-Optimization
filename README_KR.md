@@ -1,265 +1,186 @@
-[🇬🇧 English](README.md) | **🇰🇷 한국어**
+[English](README.md) | [**한국어**](README_KR.md)
 
-# 🚀 하이퍼파라미터 최적화 튜토리얼
+# 하이퍼파라미터 최적화 러닝 랩
 
-<div align="center">
-  <img src="pic/hyperparameteroptimization.png" alt="Hyperparameter Optimization" width="300"/>
-</div>
-
-> **머신러닝을 위한 5가지 하이퍼파라미터 최적화 알고리즘의 실전 비교**
-
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
+[![CI](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/actions/workflows/ci.yml/badge.svg)](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange.svg)](https://jupyter.org/)
-[![LightGBM](https://img.shields.io/badge/LightGBM-Latest-brightgreen)](https://github.com/microsoft/LightGBM)
-
-[🇰🇷 한국어](HyperParameterInspect.ipynb) | [🇬🇧 English](HyperParameterInspect_EN.ipynb) | [🎯 빠른 시작](#-빠른-시작) | [📊 결과](#-주요-결과)
-
----
-
-## ⚡ 주요 결과
-
-**일반적인 성능 패턴 (당뇨병 데이터셋: 442 샘플, 10 특성, 50회 반복)**
-
-| 방법 | 일반적인 개선율 | 속도 | 최적 사용 사례 |
-|--------|-------------------|-------|----------|
-| **TPE (Hyperopt)** | ~27% ⭐⭐ | **가장 빠름** ⚡ | **전반적으로 최고의 성능** |
-| **Random Search** | ~26% ⭐ | 빠름 | 빠른 프로토타이핑, 안정적 |
-| **Optuna (TPE+Pruning)** | ~26% ⭐ | 빠름 | 프로덕션 시스템 |
-| **Bayesian Optimization** | ~26% ⭐ | 보통 | 중요한 성능이 필요한 경우 |
-| **Grid Search** | ~22% | 느림 | 작은 탐색 공간 |
-| *기준선 (기본값)* | *0%* | *-* | *참조점* |
-
-> 💡 **중요 참고사항**: 실제 결과는 random_state, 데이터 분할, 환경에 따라 달라집니다. 모든 방법은 일반적으로 기준선 대비 20-27% 개선됩니다. 노트북을 실행하여 귀하의 머신에서 결과를 확인하세요.
-
-> ⚡ **핵심 인사이트**: TPE (Hyperopt)가 가장 높은 개선율 (+27.12%)을 달성했으며, Random Search (+26.33%)와 Optuna (+26.02%)가 근접하게 뒤따릅니다. 현대적인 베이지안 방법은 더 나은 효율성으로 Grid Search를 일관되게 능가합니다.
-
----
-
-## 🎓 학습 내용
-
-### 📚 5가지 최적화 알고리즘
-
-1. **Grid Search** - 모든 파라미터 조합에 대한 전수 탐색
-2. **Random Search** - 파라미터 분포에서 무작위 샘플링
-3. **Optuna** - 프루닝이 포함된 현대적인 TPE (더 이상 사용되지 않는 HyperBand 대체)
-4. **Bayesian Optimization** - 확률 모델 기반 최적화
-5. **TPE (Hyperopt)** - Tree-structured Parzen Estimator
-
-### 🎯 학습 성과
-
-- 각 알고리즘의 장단점 이해
-- 다양한 시나리오에 적합한 방법 선택 방법 습득
-- 실제 작동하는 코드로 실제 프로젝트에 최적화 구현
-- 통계적 엄격성으로 결과 비교
-- 하이퍼파라미터 튜닝 시간 대폭 단축
-
-### 🗺️ 개념 마인드맵
-
-<details>
-<summary><strong>📌 클릭하여 하이퍼파라미터 최적화 개념 마인드맵 보기</strong></summary>
+[![Jupyter](https://img.shields.io/badge/Jupyter-ready-orange.svg)](HyperParameterInspect.ipynb)
 
 <div align="center">
-  <img src="pic/mindmap_kr.png" alt="하이퍼파라미터 최적화 개념 마인드맵"/>
+  <img src="pic/hyperparameteroptimization.png" alt="Hyperparameter Optimization" width="320"/>
 </div>
 
-</details>
+최적화 라이브러리 호출법만 나열하지 않고, **신뢰할 수 있는 HPO 실험을 설계하고
+평가하는 방법**을 다루는 재현 가능한 한·영 튜토리얼입니다.
 
----
+학습 흐름은 언어별 하나의 종합 노트북으로 유지합니다.
 
-## 🚀 빠른 시작
+- [한국어 노트북](HyperParameterInspect.ipynb)
+- [English notebook](HyperParameterInspect_EN.ipynb)
 
-### 설치
+두 노트북의 코드 셀은 바이트 단위로 동일하며 설명 언어만 다릅니다.
+
+## 이 튜토리얼의 특징
+
+- **탐색 알고리즘**, **자원 배분**, **실행 프레임워크**, **평가 설계**를 구분합니다.
+- Grid, Random, TPE, Gaussian Process, CMA-ES를 같은 trial·fold·분할·범위
+  예산에서 비교합니다.
+- CV 선택 loss, 미사용 holdout 성능, model fit 수, 실행시간, 다중 seed,
+  95% 신뢰구간을 함께 보고합니다.
+- 중간값 보고와 LightGBM 증분 학습을 사용해 Hyperband가 실제로 trial을 중단합니다.
+- 조건부 공간, Nested CV, 다목적 Pareto 최적화, 분류 문제, SQLite 재개,
+  CLI 내보내기, CI 노트북 실행까지 포함합니다.
+- 특정 optimizer가 항상 최고라는 고정 순위나 과장된 결론을 사용하지 않습니다.
+
+<!-- benchmark-snapshot:start -->
+
+## ⚡ 재현 가능한 벤치마크 스냅샷
+
+**Diabetes regression · 442개 샘플 · 10개 특성 · LightGBM · 방법당 12 trials · 3-fold CV · seeds 17, 42**
+
+| 방법 | Holdout MSE ↓ | 관측 범위 | Baseline 대비 개선 ↑ | 탐색시간 ↓ | Fit 수 | 적합한 상황 |
+|---|---:|---:|---:|---:|---:|---|
+| **Grid** | 3011.5 | 2797.2–3225.7 | +17.2% | 0.98s | 37 | 작은 이산 공간과 투명한 기준선 |
+| **TPE** | 3149.9 | 2884.8–3415.0 | +13.5% | 1.77s | 37 | 혼합형·조건부 탐색공간 |
+| **GP** | 3185.4 | 2858.7–3512.2 | +12.7% | 1.43s | 37 | 저차원·고비용 목적함수 |
+| **CMA-ES** | 3273.4 | 2892.7–3654.1 | +10.5% | 1.24s | 37 | 상호작용하는 연속형 파라미터 |
+| **Random** | 3294.2 | 2875.3–3713.1 | +10.0% | 1.35s | 37 | 탐색 범위 점검과 강한 기준선 |
+| **Baseline** | 3661.0 | 3203.1–4119.0 | — | 0.06s | 4 | 튜닝하지 않은 참조점 |
+
+> **해석:** 이것은 보편적 순위표가 아니라 동일 예산에서 얻은 재현 가능한 스냅샷입니다. 두 seed만 사용했으므로 평균과 관측 범위를 함께 보세요. 탐색시간은 하드웨어와 병렬 설정에 따라 달라집니다.
+
+원본: [`runs.csv`](benchmarks/quick/runs.csv) · [설정](benchmarks/quick/config.json) · [환경](benchmarks/quick/environment.json) (Python 3.14.2)<br>
+기준 커밋: [`8143cd2`](https://github.com/hyeonsangjeon/Hyperparameters-Optimization/commit/8143cd2ce9a01d3eda26ed4778741f94065af29c) · 재현: `uv run hpo-lab benchmark --mode quick`
+
+<!-- benchmark-snapshot:end -->
+
+## 빠른 시작
+
+### uv 사용
 
 ```bash
 git clone https://github.com/hyeonsangjeon/Hyperparameters-Optimization.git
 cd Hyperparameters-Optimization
-pip install -r requirements.txt
+uv sync --extra notebook
+uv run jupyter lab HyperParameterInspect.ipynb
 ```
 
-### 튜토리얼 실행
+### pip 사용
 
-**대화형 노트북** (권장)
 ```bash
-jupyter notebook HyperParameterInspect.ipynb        # 한국어
-jupyter notebook HyperParameterInspect_EN.ipynb     # 영어
-```
-
-**자동화된 벤치마크**
-```bash
-python benchmark_hpo_algorithms.py
-```
-
----
-
-## 📊 알고리즘 비교
-
-### 선택 가이드
-
-| 사용 시나리오 | 권장 사항 | 이유 |
-|---------------|-------------|-----|
-| **빠른 프로토타이핑** | Random Search | 빠른 설정, 괜찮은 결과 |
-| **프로덕션 배포** | Optuna | 현대적, 프루닝, 활발한 유지보수 |
-| **최고의 성능 필요** | Bayesian Optimization | 우수한 결과, 추가 시간 가치 있음 |
-| **제한된 시간 예산** | TPE (Hyperopt) | 최고의 속도/품질 절충안 |
-| **작은 이산 공간** | Grid Search | 최적값 찾기 보장 |
-| **연구 논문** | Bayesian + TPE | 여러 강력한 기준선 |
-
-### 알고리즘 세부 정보
-
-| 알고리즘 | 작동 방식 | 장점 | 제한 사항 |
-|-----------|--------------|-----------|-------------|
-| **Grid Search** | 모든 조합의 전수 평가 | 완전한 커버리지, 재현 가능 | 지수적 복잡도 |
-| **Random Search** | 분포에서 무작위 샘플링 | 빠름, 연속 파라미터 처리 | 시행 간 학습 없음 |
-| **Optuna** | 자동 프루닝이 있는 TPE | 현대적, 효율적, 프로덕션 준비 | 설정 필요 |
-| **Bayesian Optimization** | 목적 함수의 가우시안 프로세스 모델 | 지능적 탐색, 최고의 결과 | 초기 단계 느림 |
-| **TPE** | Tree-structured Parzen estimators | 빠른 수렴, 검증된 신뢰성 | Optuna보다 적은 기능 |
-
----
-
-## 🏆 벤치마크 세부 정보
-
-### 실험 설정
-
-- **데이터셋**: Sklearn 당뇨병 (442 샘플, 10 특성)
-- **모델**: LightGBM Regressor
-- **반복 횟수**: 방법당 50회 시행
-- **검증**: 2-fold 교차 검증
-- **메트릭**: 평균 제곱 오차 (낮을수록 좋음)
-
-### 성능 특성
-
-| 알고리즘 | 속도 | 일관성 | 일반적인 개선율 |
-|-----------|-------|-------------|---------------------|
-| **TPE (Hyperopt)** | ⚡⚡⚡ 가장 빠름 | 높음 | 25-35% |
-| **Optuna** | ⚡⚡⚡ 매우 빠름 | 높음 | 20-30% |
-| **Random Search** | ⚡⚡ 빠름 | 보통 | 20-30% |
-| **Bayesian Opt** | ⚡ 보통 | 높음 | 20-30% |
-| **Grid Search** | ❌ 느림 | 매우 높음 | 15-25% |
-
-> ⚠️ **참고**: 표시된 값은 최근 벤치마크 실행 결과입니다. 절대 MSE 값은 환경과 random_state에 따라 달라지지만, 순위와 상대적 성능은 실행 간 일관됩니다.
-
----
-
-## 📁 프로젝트 구조
-
-```
-Hyperparameters-Optimization/
-├── HyperParameterInspect.ipynb           # 한국어 튜토리얼 노트북
-├── HyperParameterInspect_EN.ipynb        # 영어 튜토리얼 노트북
-├── benchmark_hpo_algorithms.py           # 자동화된 벤치마크 스크립트
-├── requirements.txt                      # Python 의존성
-├── README.md                             # 영어 README
-├── README_KR.md                          # 한국어 README (이 파일)
-├── pic/                                  # 이미지 및 플롯
-└── doc/                                  # 추가 문서
-```
-
----
-
-## 🔧 요구 사항
-
-**핵심 의존성**
-- Python 3.8+
-- numpy, pandas, scikit-learn, lightgbm
-
-**최적화 라이브러리**
-- optuna >= 3.0.0 (프루닝이 있는 현대적 HPO)
-- hyperopt >= 0.2.7 (TPE 알고리즘)
-- scikit-optimize >= 0.9.0 (베이지안 최적화)
-
-**시각화**
-- matplotlib, jupyter
-
-> ⚠️ **중요**: 이 프로젝트는 현대적인 scikit-learn 버전과의 호환성 문제로 인해 더 이상 사용되지 않는 `scikit-hyperband` 라이브러리 대신 **Optuna**를 사용합니다.
-
----
-
-## 📚 참고 문헌
-
-### 주요 논문
-
-- **Random Search**: [Bergstra & Bengio, JMLR 2012](https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf)
-- **TPE**: [Bergstra et al., NIPS 2011](https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf)
-- **Bayesian Optimization**: [Snoek et al., 2012](https://arxiv.org/abs/1206.2944)
-- **HyperBand**: [Li et al., ICLR 2018](https://arxiv.org/pdf/1603.06560.pdf)
-
-### 발표 및 미디어
-
-- 🎤 전현상, **"전문가 특강: AI 모델링에서의 하이퍼파라미터 최적화"**, *ITDAILY*, 2022. [기사](http://www.itdaily.kr/news/articleView.html?idxno=210339)
-
-- 🎤 전현상, **"사례 연구: 딥러닝 플랫폼에서 하이퍼파라미터 최적화를 통한 AutoDL"**, *AI Innovation 2020*, 전자신문, 2020. [영상](https://youtu.be/QMorERxb1YY?si=iN8opTIjZPc2tTzq)
-
-- 📰 [ComWorld](https://www.comworld.co.kr/news/articleView.html?idxno=50677)에 소개됨
-
----
-
-## 🤝 기여
-
-기여를 환영합니다! 도움을 줄 수 있는 방법:
-
-- 🐛 버그 또는 이슈 보고
-- 💡 새로운 기능 또는 알고리즘 제안
-- 📝 문서 개선
-- 🌍 다른 언어로 번역
-- 🔬 최적화 방법 추가
-
-**개발 환경 설정**
-```bash
-git clone https://github.com/YOUR_USERNAME/Hyperparameters-Optimization.git
-cd Hyperparameters-Optimization
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-python benchmark_hpo_algorithms.py
+python -m pip install -r requirements.txt
+jupyter lab HyperParameterInspect.ipynb
 ```
 
----
+기본 실행은 `quick` 모드입니다. Jupyter 실행 전에 모드를 바꿀 수 있습니다.
 
-## 📄 라이선스
+```bash
+HPO_MODE=smoke uv run jupyter lab  # 가장 빠른 설치 확인
+HPO_MODE=full uv run jupyter lab   # 심층 실험
+```
 
-MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+| 모드 | 용도 | 핵심 동작 |
+|---|---|---|
+| `smoke` | CI와 환경 확인 | 최소 trial, 단일 seed |
+| `quick` | 대화형 튜토리얼 | 모든 핵심 탐색기, 2개 seed |
+| `full` | 심층 분석 | 더 많은 trial·fold·seed와 분류 실험 |
 
----
+## 학습 흐름
 
-## 👤 작성자
+| 구간 | 내용 |
+|---|---|
+| 실험 계약 | 동일 예산, 공통 fold, holdout 격리 |
+| Black-box 탐색 | Grid, Random, TPE, GP + Expected Improvement, CMA-ES |
+| 탐색공간 설계 | Log scale, 정수 영역, 제약식, 조건부 분기 |
+| Multi-fidelity | Successive Halving 개념, Hyperband, 실제 pruning |
+| 신뢰성 평가 | 다중 seed, 신뢰구간, Nested CV |
+| 다목적 HPO | 정확도·복잡도 Pareto frontier와 knee 선택 |
+| 운영 | SQLite 재개, CSV/JSON, CLI, 재현 가능한 환경 |
+| 확장 과제 | 회귀와 선택적 분류 벤치마크 |
 
-**전현상 (Hyeonsang Jeon)**
-GitHub: [@hyeonsangjeon](https://github.com/hyeonsangjeon)
+## 재현 가능한 CLI 벤치마크
 
----
+```bash
+uv run hpo-lab benchmark --mode smoke
+uv run hpo-lab benchmark --mode quick --method Random --method TPE
+uv run hpo-lab benchmark --mode full --dataset breast_cancer
+```
 
-## 🙏 감사의 말
+기존 명령도 호환됩니다.
 
-특별히 감사드립니다:
-- [Optuna](https://github.com/optuna/optuna) - 현대적인 HPO 프레임워크
-- [Hyperopt](https://github.com/hyperopt/hyperopt) - TPE 구현
-- [scikit-optimize](https://github.com/scikit-optimize/scikit-optimize) - 베이지안 최적화
-- [LightGBM](https://github.com/microsoft/LightGBM) - 빠른 그래디언트 부스팅
+```bash
+uv run python benchmark_hpo_algorithms.py --mode quick
+```
 
----
+실행 결과는 `artifacts/`에 저장됩니다.
 
-## 🔗 관련 프로젝트
+```text
+best_params.json
+config.json
+convergence.png
+history.csv
+quality-vs-time.png
+runs.csv
+seed-stability.png
+summary.csv
+```
 
-- **[Optuna](https://github.com/optuna/optuna)** - 차세대 HPO 프레임워크
-- **[Hyperopt](https://github.com/hyperopt/hyperopt)** - 분산 HPO 라이브러리
-- **[scikit-optimize](https://github.com/scikit-optimize/scikit-optimize)** - 베이지안 최적화
-- **[Ray Tune](https://github.com/ray-project/ray)** - 확장 가능한 분산 튜닝
+## 실험 설계
 
----
+기본 벤치마크는 sklearn Diabetes 회귀 데이터와 LightGBM을 사용합니다. 모든 탐색기는
+다음 조건을 공유합니다.
 
-<div align="center">
+1. seed별 동일 train/holdout 분할
+2. 동일한 결정적 CV fold
+3. 동일한 파라미터 바깥 경계
+4. 동일한 후보 수와 fold 수
+5. CV가 최적 구성을 선택한 뒤에만 holdout에 접근
 
-## ⭐ 도움이 되셨나요?
+Grid는 유한 격자를 사용하고 다른 탐색기는 연속 영역을 표본화하므로 후보 수만으로
+공정성을 증명할 수 없습니다. 따라서 model fit 수, 자원 단위, optimizer overhead,
+실행시간, seed 민감도, Nested CV 추정값도 함께 공개합니다.
 
-프로젝트를 지원하고 다른 사람들이 발견할 수 있도록 **이 저장소에 별표를 달아주세요**!
+## 프로젝트 구조
 
-### 🚀 팀과 공유하세요
+```text
+.
+├── HyperParameterInspect.ipynb       # 한국어 종합 튜토리얼
+├── HyperParameterInspect_EN.ipynb    # 영어 번역본, 동일 코드
+├── src/hpo_lab/                      # 테스트된 실험 엔진과 시각화
+├── benchmarks/quick/                 # README 벤치마크의 추적 가능한 원본
+├── tools/build_notebooks.py          # 결정적 양언어 노트북 생성기
+├── tools/render_benchmark_snapshot.py # 자동 생성되는 벤치마크 표
+├── tests/                            # 단위·동기화 테스트
+├── benchmark_hpo_algorithms.py       # 기존 CLI 호환 진입점
+├── pyproject.toml                    # 패키지와 의존성 정의
+├── uv.lock                           # 재현 가능한 의존성 잠금
+├── README.md
+├── README_KR.md
+└── pic/                              # 튜토리얼 그림
+```
 
-이 튜토리얼은 활발하게 유지보수되며 새로운 기술로 정기적으로 업데이트됩니다.
+노트북 생성과 동기화 확인:
 
-**ML 커뮤니티를 위해 ❤️로 제작**
+```bash
+uv run python tools/build_notebooks.py
+uv run python tools/build_notebooks.py --check
+```
 
-[⬆ 맨 위로](#-하이퍼파라미터-최적화-튜토리얼)
+## 프로젝트 배경
 
-</div>
+기존 HPO 발표·교육 자료를 실행 가능한 러닝 랩으로 전면 개편했습니다.
+
+- 전현상, “AI 모델링에서의 하이퍼파라미터 최적화,” *ITDAILY*, 2022 —
+  [기사](http://www.itdaily.kr/news/articleView.html?idxno=210339)
+- 전현상, “딥러닝 플랫폼에서 HPO를 활용한 AutoDL,” *AI Innovation 2020* —
+  [영상](https://youtu.be/QMorERxb1YY)
+- 기존 발표 PDF는 저장소 루트에 보존되어 있습니다.
+
+## 라이선스
+
+MIT License. 자세한 내용은 [LICENSE](LICENSE)를 참조하세요.
+
+**작성자:** [전현상 (Hyeonsang Jeon)](https://github.com/hyeonsangjeon)

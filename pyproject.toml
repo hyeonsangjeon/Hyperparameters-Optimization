@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hpo-learning-lab"
+version = "2.0.0"
+description = "A reproducible, bilingual hyperparameter optimization learning lab"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "hyeonsangjeon", email = "wingnut0310@gmail.com" },
+]
+dependencies = [
+  "cmaes>=0.11",
+  "filelock>=3.15",
+  "lightgbm>=4.3",
+  "matplotlib>=3.9",
+  "numpy>=1.26",
+  "optuna>=4.0",
+  "pandas>=2.0",
+  "scikit-learn>=1.4",
+  "scipy>=1.11",
+]
+
+[project.optional-dependencies]
+notebook = [
+  "ipykernel>=6.29",
+  "ipywidgets>=8.1",
+  "jupyterlab>=4.2",
+  "nbclient>=0.10",
+  "nbformat>=5.10",
+]
+dev = [
+  "ipykernel>=6.29",
+  "ipywidgets>=8.1",
+  "jupyterlab>=4.2",
+  "nbclient>=0.10",
+  "nbformat>=5.10",
+  "pytest>=8.3",
+]
+
+[project.scripts]
+hpo-lab = "hpo_lab.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hpo_lab"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/LICENSE",
+  "/README.md",
+  "/pyproject.toml",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
