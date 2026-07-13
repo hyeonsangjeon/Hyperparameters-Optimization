@@ -35,6 +35,7 @@ jobs:
       - name: Verify generated notebooks
         run: |
           python tools/build_notebooks.py --check
+          python tools/execute_notebooks.py --check
           python tools/render_benchmark_snapshot.py --check
 
       - name: Execute tutorial end to end

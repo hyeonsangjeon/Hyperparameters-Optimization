@@ -20,6 +20,8 @@ The tutorial remains one continuous notebook per language:
 - [한국어 노트북](HyperParameterInspect.ipynb)
 
 Both notebooks contain byte-identical code cells and differ only in explanatory text.
+Their committed `quick`-mode outputs let GitHub render all result tables and charts
+without requiring visitors to run the cells first.
 
 ## What makes this tutorial different
 
@@ -155,6 +157,7 @@ seed sensitivity, and nested-CV estimates.
 ├── src/hpo_lab/                      # Tested experiment engine and plots
 ├── benchmarks/quick/                 # Tracked README benchmark provenance
 ├── tools/build_notebooks.py          # Deterministic bilingual notebook builder
+├── tools/execute_notebooks.py        # Publish synchronized outputs and charts
 ├── tools/render_benchmark_snapshot.py # Generated benchmark tables
 ├── tests/                            # Unit and synchronization tests
 ├── benchmark_hpo_algorithms.py       # Backward-compatible CLI entry point
@@ -165,12 +168,20 @@ seed sensitivity, and nested-CV estimates.
 └── pic/                              # Tutorial illustrations
 ```
 
-Regenerate and verify the notebooks:
+Regenerate, execute, and verify the notebooks:
 
 ```bash
 uv run python tools/build_notebooks.py
+uv run python tools/execute_notebooks.py
 uv run python tools/build_notebooks.py --check
+uv run python tools/execute_notebooks.py --check
 ```
+
+`execute_notebooks.py` executes the Korean source once in `quick` mode and copies
+the byte-identical code outputs into the English notebook. A runtime fingerprint
+covering notebook code, `src/hpo_lab/`, `pyproject.toml`, and `uv.lock` makes stale
+or stripped outputs fail tests and CI. Source-only regeneration preserves published
+outputs whenever the code cells are unchanged.
 
 ## Historical context
 
